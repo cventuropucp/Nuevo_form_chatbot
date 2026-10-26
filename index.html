@@ -204,11 +204,18 @@
     }
   });
 
-  // Botones que abren el chat (el widget crea un botón flotante con esta clase)
+  // Botones que abren el chat
+  const CHAT_URL = 'https://ctr-venturo.app.n8n.cloud/webhook/af95df5f-36be-4f0a-98fd-3225fc5a66c3/chat';
   function openChat(){
     const toggle = document.querySelector('.chat-window-toggle');
-    const open = document.querySelector('.chat-window-wrapper .chat-window');
-    if (toggle && !open) toggle.click();
+    if (!toggle) {
+      // Si el widget no cargó, abre el chat público de n8n en una pestaña nueva
+      window.open(CHAT_URL, '_blank', 'noopener');
+      return;
+    }
+    const win = document.querySelector('.chat-window');
+    const visible = win && getComputedStyle(win).display !== 'none';
+    if (!visible) toggle.click();
   }
   document.getElementById('open-chat').addEventListener('click', openChat);
   document.getElementById('open-chat-2').addEventListener('click', openChat);
